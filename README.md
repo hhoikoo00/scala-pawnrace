@@ -1,1 +1,1 @@
-# java_pawnrace
+# scala_pawnrace
