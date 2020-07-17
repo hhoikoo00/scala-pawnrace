@@ -6,6 +6,10 @@ import helper.Color._
 object Board {
   val whiteRow = 1
   val blackRow = 6
+  val whiteEnd = 7
+  val blackEnd = 0
+
+  def getInitRow(color: Color): Int = if (color == BLACK) blackRow else whiteRow
 }
 
 class Board(val whiteGap: Int, val blackGap: Int) {
@@ -15,7 +19,7 @@ class Board(val whiteGap: Int, val blackGap: Int) {
   type BoardType = Array[Row]
 
   // Initialize empty board
-  private[this] val board: BoardType = Array.ofDim(8, 8)
+  val board: BoardType = Array.ofDim(8, 8)
   for {
     i <- 0 to 7
     j <- 0 to 7
