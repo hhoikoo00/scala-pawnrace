@@ -5,6 +5,8 @@ import board._
 import helper._
 import helper.Color._
 
+import scala.io.StdIn
+
 object PawnRace {
   def filterPlayer(
     arg: String, game: Game, board: Board, color: Color
@@ -20,18 +22,25 @@ object PawnRace {
     None
 
   def main(args: Array[String]): Unit = {
-    if (args.length != 4) {
-      Console.err.println("Usage: [P/C](White) [P/C](Black) [A-H](White gap) [A-H](Black gap)")
-      sys.exit(1)
-    }
+    /** Get white and black player */
+    print("Is White player a computer (\"C\") or a human (\"H\")? > ")
+    val whitePlayerInput = StdIn.readLine()
+    print("Is Black player a computer (\"C\") or a human (\"H\")? > ")
+    val blackPlayerInput = StdIn.readLine()
+
+    /** Get gaps */
+    print("Black player, where do you want to place White's gap (A-H)? > ")
+    val whiteGapInput = StdIn.readLine()
+    print("Black player, where do you want to place Black's gap (A-H)? > ")
+    val blackGapInput = StdIn.readLine()
 
     /** Parse and init board */
     val board = (for {
-      whiteGap <- filterGap(args(2))
-      blackGap <- filterGap(args(3))
+      whiteGap <- filterGap(whiteGapInput)
+      blackGap <- filterGap(blackGapInput)
     } yield new Board(whiteGap, blackGap)).getOrElse({
       Console.err.println("Invalid white gap and/or black gap")
-      sys.exit(2)
+      sys.exit(1)
     })
 
     /** Init game with board */
@@ -39,15 +48,15 @@ object PawnRace {
 
     /** Init players */
     val players = (for {
-      whitePlayer <- filterPlayer(args(0), game, board, WHITE)
-      blackPlayer <- filterPlayer(args(1), game, board, BLACK)
+      whitePlayer <- filterPlayer(whitePlayerInput, game, board, WHITE)
+      blackPlayer <- filterPlayer(blackPlayerInput, game, board, BLACK)
     } yield {
       whitePlayer.opponent = blackPlayer
       blackPlayer.opponent = whitePlayer
       Map[Color, AbstractPlayer](WHITE -> whitePlayer, BLACK -> blackPlayer)
     }).getOrElse({
       Console.err.println("Invalid white player and/or black player")
-      sys.exit(3)
+      sys.exit(2)
     })
 
     /** actually play the game */
