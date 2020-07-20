@@ -10,7 +10,7 @@ import scala.io.StdIn
 object PawnRace {
   def filterPlayer(
     arg: String, game: Game, board: Board, color: Color
-  ): Option[AbstractPlayer] = arg match {
+  ): Option[AbstractPlayer] = arg.toUpperCase match {
     case "P" => Some(new HumanPlayer(game, board, color))
     case "C" => Some(new ComputerPlayer(game, board, color))
     case _ => None
@@ -23,9 +23,9 @@ object PawnRace {
 
   def main(args: Array[String]): Unit = {
     /** Get white and black player */
-    print("Is White player a computer (\"C\") or a human (\"H\")? > ")
+    print("Is White player a computer (\"C\") or a human (\"P\")? > ")
     val whitePlayerInput = StdIn.readLine()
-    print("Is Black player a computer (\"C\") or a human (\"H\")? > ")
+    print("Is Black player a computer (\"C\") or a human (\"P\")? > ")
     val blackPlayerInput = StdIn.readLine()
 
     /** Get gaps */
@@ -67,6 +67,9 @@ object PawnRace {
 
     /** display result */
     board.display()
-    println(s"${game.gameResult.name} won!")
+    game.gameResult match {
+      case NONE => println("Game ended in a stalemate. Thank you for playing.")
+      case color => println(s"${color.name} won! Thank you for playing.")
+    }
   }
 }

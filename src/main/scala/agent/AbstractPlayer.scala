@@ -10,7 +10,7 @@ abstract class AbstractPlayer(val game: Game, val board: Board, val color: Color
 
   def allValidMoves: Seq[Move] = game.allMoves(color)
 
-  def isPassedPawn(square: Square): Boolean = ???
+  def isPassedPawn(square: Square): Boolean = ??? //TODO implement isPassedPawn
 
   def makeMove(): Unit
 }

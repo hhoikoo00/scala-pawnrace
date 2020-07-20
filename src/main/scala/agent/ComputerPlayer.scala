@@ -13,5 +13,7 @@ class ComputerPlayer(
     println(s"${game.currentPlayer.name}'s turn: computer thinking...")
     val validMoves = game.allMoves(color)
     game.applyMove(validMoves(new Random().nextInt(validMoves.length)))
+
+    // TODO implement a better-than-random makeMove for AI
   }
 }
